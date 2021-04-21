@@ -1,0 +1,167 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "OpenApi Course",
+    "description" : "Specifurl: https://www.apache.org/licenses/LICENSE-2.0.htmlication for OpenApi Course",
+    "termsOfService" : "http://example.com/terms/",
+    "contact" : {
+      "name" : "Vivek Gupta",
+      "url" : "http://localhost:5000",
+      "email" : "vivek@swaggerhub.com"
+    },
+    "license" : {
+      "name" : "Apache 2.0",
+      "url" : "https://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version" : "1.0"
+  },
+  "servers" : [ {
+    "url" : "http://localhost:5000",
+    "description" : "Localhost 5000 port"
+  }, {
+    "url" : "http://openapi.herkou.com",
+    "description" : "Heroku server deployment"
+  } ],
+  "paths" : {
+    "/v1/customers" : {
+      "get" : {
+        "responses" : {
+          "200" : {
+            "description" : "Get all customers",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 100,
+                  "minItems" : 1,
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Customer"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/beers" : {
+      "get" : {
+        "responses" : {
+          "200" : {
+            "description" : "Get all beers data",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/inline_response_200"
+                  }
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Resource not found"
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "Address" : {
+        "type" : "object",
+        "properties" : {
+          "line" : {
+            "type" : "string",
+            "example" : "123 main"
+          },
+          "city" : {
+            "type" : "string",
+            "example" : "Boston"
+          },
+          "stateCode" : {
+            "maxLength" : 2,
+            "minLength" : 2,
+            "type" : "string",
+            "enum" : [ "PH", "AL", "AK", "DK", "BI" ]
+          },
+          "zipCode" : {
+            "type" : "string",
+            "example" : "1118.0"
+          }
+        }
+      },
+      "Customer" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "firstName" : {
+            "maxLength" : 100,
+            "minLength" : 2,
+            "type" : "string",
+            "example" : "John"
+          },
+          "lastName" : {
+            "maxLength" : 100,
+            "minLength" : 2,
+            "type" : "string",
+            "example" : "Doe"
+          },
+          "address" : {
+            "$ref" : "#/components/schemas/Address"
+          }
+        },
+        "description" : "customer object"
+      },
+      "v1beers_brewery" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "example" : "test brewery name"
+          },
+          "location" : {
+            "type" : "string",
+            "example" : "Boston"
+          }
+        }
+      },
+      "inline_response_200" : {
+        "type" : "object",
+        "properties" : {
+          "beername" : {
+            "type" : "string",
+            "description" : "name of the beer",
+            "example" : "My beer"
+          },
+          "upc" : {
+            "type" : "string",
+            "description" : "upc details",
+            "example" : "my upc"
+          },
+          "style" : {
+            "type" : "string",
+            "enum" : [ "ALE", "PALE_ALE", "IPA", "WHEAT", "LAGER" ]
+          },
+          "price" : {
+            "type" : "number",
+            "format" : "float",
+            "example" : 20.5
+          },
+          "quantity" : {
+            "type" : "integer",
+            "format" : "int32",
+            "example" : 5
+          },
+          "brewery" : {
+            "$ref" : "#/components/schemas/v1beers_brewery"
+          }
+        }
+      }
+    }
+  }
+}
